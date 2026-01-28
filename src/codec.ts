@@ -1,9 +1,6 @@
 import * as base32 from 'hi-base32';
 // @ts-ignore
-import * as rsModule from 'reedsolomon';
-
-// @ts-ignore
-const rs = rsModule.default || rsModule;
+import { GenericGF, ReedSolomonEncoder, ReedSolomonDecoder } from './vendor/reedsolomon.js';
 
 export class RSCodecWrapper {
     private encoder: any;
@@ -26,9 +23,9 @@ export class RSCodecWrapper {
         }
 
         // Initialize GF(2^8) with primitive 0x11d and generator base 0
-        const field = new rs.GenericGF(0x11D, 256, 0);
-        this.encoder = new rs.ReedSolomonEncoder(field);
-        this.decoder = new rs.ReedSolomonDecoder(field);
+        const field = new GenericGF(0x11D, 256, 0);
+        this.encoder = new ReedSolomonEncoder(field);
+        this.decoder = new ReedSolomonDecoder(field);
     }
 
     public encode(data: Uint8Array): string[] {
